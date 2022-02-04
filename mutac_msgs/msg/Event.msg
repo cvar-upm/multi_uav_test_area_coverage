@@ -1,0 +1,4 @@
+uint32 event
+
+uint32 EVENT_FAILED=0
+uint32 EVENT_FINISHED=1
