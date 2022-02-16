@@ -19,6 +19,7 @@ add_message_files(
   PathIdentified.msg
   Region.msg
   RegionIdentified.msg
+  Metrics.msg
 )
 
 add_service_files(
