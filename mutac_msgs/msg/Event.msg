@@ -1,4 +1,2 @@
-uint32 event
-
-uint32 EVENT_FAILED=0
-uint32 EVENT_FINISHED=1
+uint32 eventID
+mutac_msgs/PathIdentified[] paths
