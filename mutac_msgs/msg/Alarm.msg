@@ -1,0 +1,2 @@
+mutac_msgs/Identifier identifier
+bool camera
