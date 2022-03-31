@@ -1,2 +1,2 @@
-mutac_msgs/Identifier identifier
-mutac_msgs/Event event
+mutac_msgs/Identifier droneID
+mutac_msgs/Identifier eventID
