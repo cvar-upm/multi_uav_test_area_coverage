@@ -1,2 +1,0 @@
-mutac_msgs/Identifier droneID
-mutac_msgs/Identifier eventID

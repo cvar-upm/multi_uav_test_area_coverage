@@ -1,1 +1,1 @@
-uint32 natural
+int32 natural

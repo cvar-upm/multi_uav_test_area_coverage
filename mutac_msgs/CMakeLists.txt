@@ -12,19 +12,22 @@ find_package(catkin REQUIRED COMPONENTS
 
 add_message_files(
   FILES
-  Context.msg
-  Event.msg
-  EventIdentified.msg
+  Alarm.msg
+  Battery.msg
+  Generation.msg
   Identifier.msg
-  PathIdentified.msg
-  Region.msg
-  RegionIdentified.msg
+  Label.msg
+  LabeledPath.msg
+  LabeledPoint.msg
   Metrics.msg
+  Plan.msg
+  Sweep.msg
 )
 
 add_service_files(
   FILES
-  Split.srv
+  GeneratePlan.srv
+  UpdatePlan.srv
 )
 
 generate_messages(

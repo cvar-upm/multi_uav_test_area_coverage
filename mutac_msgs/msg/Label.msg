@@ -1,0 +1,5 @@
+uint32 natural
+
+uint32 POSITIONING_LABEL=0
+uint32 COVERING_LABEL=1
+

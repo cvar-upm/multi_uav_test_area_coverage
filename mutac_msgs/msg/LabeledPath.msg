@@ -1,2 +1,2 @@
 mutac_msgs/Identifier identifier
-nav_msgs/Path path
+mutac_msgs/LabeledPoint[] points
