@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>planner</name>
+
+  <version>1.0.0</version>
+
+  <description>planner</description>
+
+  <maintainer email="david.eugenioq@alumnos.upm.es">David Eugenio</maintainer>
+
+  <license>BSD</license>
+
+  <author email="david.eugenioq@alumnos.upm.es">David Eugenio</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>mutac_msgs</build_depend>
+  <build_depend>roscpp</build_depend>
+
+  <build_export_depend>roscpp</build_export_depend>
+
+  <exec_depend>mutac_msgs</exec_depend>
+  <exec_depend>roscpp</exec_depend>
+</package>
