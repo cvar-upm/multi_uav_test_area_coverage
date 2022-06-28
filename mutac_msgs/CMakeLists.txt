@@ -13,7 +13,6 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
   FILES
   Alarm.msg
-  Battery.msg
   Generation.msg
   Identifier.msg
   Label.msg
@@ -21,6 +20,7 @@ add_message_files(
   LabeledPoint.msg
   Metrics.msg
   Plan.msg
+  State.msg
   Sweep.msg
 )
 

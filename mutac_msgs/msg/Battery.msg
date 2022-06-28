@@ -1,2 +1,0 @@
-mutac_msgs/Identifier identifier
-uint32 percentage
