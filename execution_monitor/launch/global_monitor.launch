@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node ns="mutac" name="global_execution_monitor" pkg="execution_monitor" type="global_execution_monitor" output="screen"/>
+</launch>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>execution_monitor</name>
+  <version>1.0.0</version>
+  <description>The execution_monitor package</description>
+
+  <maintainer email="e.mabad@alumnos.upm.es">Elisa Martinez</maintainer>
+  <author email="e.mabad@alumnos.upm.es">Elisa Martinez</author>
+
+  <license>BSD-3</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>mutac_msgs</depend>
+  <depend>roscpp</depend>
+
+  <export></export>
+</package>

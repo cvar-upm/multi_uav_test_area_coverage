@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="drone_id" default="1"/>
+    
+    <node ns="mutac/drone$(arg drone_id)" name="execution_monitor" pkg="execution_monitor" type="execution_monitor" output="screen">
+        <param name="drone_id" value="$(arg drone_id)"/>
+    </node>
+
+</launch>
