@@ -1,0 +1,18 @@
+##############################
+# Mutac platform config file #
+##############################
+
+n_drones: 2
+
+events/file_path: /home/elisa/catkin_ws/src/tests/2_drones/case2/example_events.csv
+
+homebase/drone1: [590, 90, 325]
+homebase/drone2: [600, 90, 325]
+
+mission/height: 370
+mission/distance: 10
+
+common_space/height: 375
+common_space/height_increment: 5
+
+update_plan/threshold: 0.8
