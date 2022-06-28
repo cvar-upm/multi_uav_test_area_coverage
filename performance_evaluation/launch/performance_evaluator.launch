@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+    <node ns="mutac" name="performance_evaluator" pkg="performance_evaluation" type="metricsGenerator" output="screen">
+    </node>
+</launch>

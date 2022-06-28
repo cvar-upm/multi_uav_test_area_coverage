@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>performance_evaluation</name>
+  <version>1.0.0</version>
+  <description>The performance_evaluation package</description>
+
+  <maintainer email="e.mabad@alumnos.upm.es">Elisa Martinez</maintainer>
+  <author email="e.mabad@alumnos.upm.es">Elisa Martinez</author>
+
+  <license>BSD-3</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>rospy</depend>
+  <depend>roscpp</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>mutac_msgs</depend>
+
+  <export></export>
+</package>

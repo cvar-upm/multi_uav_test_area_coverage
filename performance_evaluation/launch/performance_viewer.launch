@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="config" default="$(find performance_evaluation)/performance_viewer/config.yaml"/>
+
+    <node ns="mutac" name="performance_viewer" pkg="performance_evaluation" type="display.py" output="screen">
+        <param name="config" value="$(arg config)"/>
+        <param name="drone_img" value="$(find performance_evaluation)/performance_viewer/src/performance_viewer/resources/drone.png"/>
+        <param name="window_icon" value="$(find performance_evaluation)/performance_viewer/src/performance_viewer/resources/window_icon.png"/>
+    </node>
+    
+</launch>
