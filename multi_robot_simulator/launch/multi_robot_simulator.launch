@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="rviz_file" default="$(find multi_robot_simulator)/launch/cameras/camera.rviz" />
+    <arg name="scene_id" default="5" />
+    <arg name="floor" default="0" />
+    <arg name="all_cameras" default="true" />
+
+    <!-- RPG Flightmare Unity Render. -->
+    <node pkg="flightrender" type="RPG_Flightmare.x86_64" name="rpg_flightmare_render"></node>
+
+    <node ns="mutac" name="multi_robot_simulator" pkg="multi_robot_simulator" type="multi_robot_simulator" output="screen">
+        <param name="floor" value="$(arg floor)"/>
+        <param name="scene_id" value="$(arg scene_id)"/>
+        <param name="all_cameras" value="$(arg all_cameras)"/>
+    </node>
+
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(arg rviz_file)"/>
+    
+</launch>

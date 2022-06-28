@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>multi_robot_simulator</name>
+  <version>1.0.0</version>
+  <description>The multi_robot_simulator package</description>
+  
+  <maintainer email="e.mabad@alumnos.upm.es">Elisa Martinez</maintainer>
+  <author email="e.mabad@alumnos.upm.es">Elisa Martinez</author>
+
+  <license>BSD-3</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>catkin_simple</buildtool_depend>
+  
+  <depend>roscpp</depend>
+  <depend>geometry_msgs</depend>
+  <depend>mutac_msgs</depend>
+  <depend>std_msgs</depend>
+
+  <depend>flightlib</depend>
+  <depend>autopilot</depend>
+  <depend>quadrotor_common</depend>
+  <depend>nav_msgs</depend>
+  <depend>eigen_catkin</depend>
+  <depend>quadrotor_msgs</depend>
+  <depend>polynomial_trajectories</depend>
+  <depend>tf</depend>
+  <depend>tf_conversions</depend>
+  <depend>eigen_conversions</depend>
+  <depend>image_transport</depend>
+  <depend>cv_bridge</depend>
+  <depend>mav_msgs</depend>
+</package>
