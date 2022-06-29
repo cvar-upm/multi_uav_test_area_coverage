@@ -153,7 +153,7 @@ void Simulator::pathCallback(const mutac_msgs::Plan &msg) {
     for (size_t i = 0; i < msg.paths.size(); i++) {
         int droneID = msg.paths[i].identifier.natural;
 
-        if (droneID > drones.size() - 1 || droneID < 0) {
+        if ((size_t)droneID > drones.size() - 1 || droneID < 0) {
             std::cout << "WARNING: Trajectory received for a drone that doesn't exists." << std::endl;
             return;
         }

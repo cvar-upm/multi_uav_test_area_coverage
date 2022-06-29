@@ -7,6 +7,7 @@
 #include <sstream>
 #include <vector>
 #include <string>
+#include <filesystem>
 
 #include "ros/ros.h"
 
@@ -27,6 +28,7 @@ public:
     void setStart(int start) {this->start = start;}
     
     vector<Event> genEvents();
+    filesystem::path expand_path (filesystem::path path);
 };
 
 #endif

@@ -2,7 +2,12 @@
 
 EventGenerator::EventGenerator(string path) {
     ifstream file;
-    file.open(path);
+    filesystem::path file_path = path;
+
+    file_path = expand_path(file_path);
+    cout << file_path << endl;
+
+    file.open(file_path);
   
   	vector<vector<string>> content;
 	vector<string> row;
@@ -52,4 +57,21 @@ vector<Event> EventGenerator::genEvents() {
     }
 
     return eventsToDo;
+}
+
+filesystem::path EventGenerator::expand_path (filesystem::path path) {
+    filesystem::path expanded = "";
+
+    for(auto it = path.begin(); it != path.end(); it++) {
+        string filename = (*it).string();
+        filesystem::path new_p = *it;
+
+        if (filename.rfind("$", 0) == 0) {
+            char* var = getenv(filename.erase(0,1).c_str());
+            if (var != NULL) new_p = var;
+        }
+        
+        expanded /= new_p;
+    }
+    return expanded;
 }

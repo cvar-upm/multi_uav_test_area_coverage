@@ -4,7 +4,7 @@
 
 n_drones: 5
 
-events/file_path: /home/elisa/catkin_ws/src/tests/5_drones/case1/example_events.csv
+events/file_path: $MUTAC_WS/tests/5_drones/case1/example_events.csv
 
 homebase/drone1: [590, 90, 325]
 homebase/drone2: [600, 90, 325]
