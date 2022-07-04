@@ -1,6 +1,22 @@
-# multi_uav_test_area_coverage
+# Multi UAV test area coverage
 
 A multi UAV test platform for area coverage path planning algorithms.
+
+## Introduction
+
+The multi UAV test area coverage repository is a set of tools that is part of an experimental platform aimed at evaluating different replanning algorithms for multi-agent flight systems.
+
+It consists of the following components:
+
+- *planner*: plans a mission given a region to inspect and the number of drones to use.
+
+- *execution_monitor*: drone monitors that detect important events such as the drone getting lost or finishing the inspection.
+
+- *performance_evaluator*: generates useful metrics such as the total time of the mission or the total distance covered.
+
+- *performance_viewer*: graphic interface that shows the current state of the mission and its metrics.
+
+- *multi_robot_simulator*: simulates the mission in a photorealistic environment using [Flightmare](https://github.com/uzh-rpg/flightmare). It also simulates any unexpected events that can occur to a drone. The events currently supported are: BLIND_CAMERA, GO_HOMEBASE, BATTERY_DISCHARGE, FALL_DOWN, STOPPED, RECTILINEAR_MOTION, SLOW_MOTION.
 
 ## Installation
 
@@ -8,7 +24,7 @@ A multi UAV test platform for area coverage path planning algorithms.
 
 The `multi_robot_simulator` uses [Flightmare](https://github.com/uzh-rpg/flightmare) to simulate the mission. To use it, you need to install [Flightmare with ROS](https://github.com/uzh-rpg/flightmare/wiki/Install-with-ROS).
 
-After installing it, if you want to use the solar farm scene used in the examples, you need to install the modified Flightmare binary from here (link), extract it into the */path/to/flightmare/flightrender*, and modify the following files:
+After installing it, if you want to use the solar farm scene used in the examples, you need to install the modified Flightmare binary from here (link), extract it into the */path/to/flightmare/flightrender* and modify the following file:
 
 - *flightmare/flightlib/include/flightlib/bridges/unity_message_types.hpp*
 
@@ -26,6 +42,8 @@ enum UnityScene {
   SceneNum = 6
 };
 ```
+
+To use multiple quadrotors in Flightmare you also need to change the following files:
 
 - *rpg_quadrotor_common/quadrotor_common/include/quadrotor_common/trajectory_point.h*
 
