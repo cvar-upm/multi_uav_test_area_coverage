@@ -365,8 +365,7 @@ class Map(QGraphicsView):
         self.planned_colors = [Qt.red, Qt.green, Qt.magenta, Qt.yellow, Qt.cyan, Qt.blue]
         self.real_colors = [Qt.darkRed, Qt.darkGreen, Qt.darkMagenta, Qt.darkYellow, Qt.darkCyan, Qt.darkBlue]
 
-        self.show_trj, self.show_trj_left, self.show_real_trj = False, True, True
-        self.show_inspected = False
+        self.show_trj, self.show_trj_left, self.show_real_trj, self.show_inspected = False, True, True, False
 
         # Initialize n drones
         self.drones = []
