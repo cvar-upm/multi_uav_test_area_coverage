@@ -41,10 +41,6 @@ void EventController::startEvent(Event event) {
         std::cout << "Drone: " << drone->getId() << " Event: SLOW_MOTION" << std::endl;
         slowMotion();
         break;
-    case EventType::WRONG_EVENT:
-        std::cout << "Drone: " << drone->getId() << " Event: WRONG_EVENT" << std::endl;
-        slowMotion();
-        break;
     }
 }
 
@@ -76,7 +72,7 @@ void EventController::goHomeBase() {
     drone->setTrjChanged(true);
 }
 
-void EventController::batteryDischarge(int percentage) {    
+void EventController::batteryDischarge(int percentage) {
     sensor_msgs::BatteryState msg = sensor_msgs::BatteryState();
     msg.percentage = drone->getBattery() - percentage;
     

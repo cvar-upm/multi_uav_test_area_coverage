@@ -5,8 +5,6 @@ EventGenerator::EventGenerator(string path) {
     filesystem::path file_path = path;
 
     file_path = expand_path(file_path);
-    cout << file_path << endl;
-
     file.open(file_path);
   
   	vector<vector<string>> content;

@@ -170,32 +170,25 @@ void Simulator::pathCallback(const mutac_msgs::Plan &msg) {
         std::vector<Eigen::Vector3d> points;
         std::vector<double> point;
 
-        if (state.first == MotionState::NOT_STARTED) {
-            point = std::vector<double> {path[0].point.x, path[0].point.y, path[0].point.z};
-            points.push_back(Eigen::Vector3d {point[0], point[1], point[2]});
-        }
-        else {
-            point = drones[droneID]->getPosition();
-            points.push_back(Eigen::Vector3d {point[0], point[1], point[2]});    
-        }
-
-        point = std::vector<double>{path[1].point.x, path[1].point.y, path[1].point.z};
-        points.push_back(Eigen::Vector3d {point[0], point[1], point[2]});
-
+        // Reset current plan
         drones[droneID]->clearTrjPoints();
 
-        std::vector<double> lastPoint = point;
-        drones[droneID]->addPoint(point);
-
-        for (size_t i = 2; i < path.size(); i++) {
-            std::vector<double> point {path[i].point.x, path[i].point.y, path[i].point.z};
-
-            if (!(point[0] == lastPoint[0] && point[1] == lastPoint[1] && point[2] == lastPoint[2])) {
-                drones[droneID]->addPoint(point);
-                lastPoint = point;
-            }
+        // Add the points of the new plan
+        for (size_t i = 1; i < path.size(); i++) {
+            drones[droneID]->addPoint(std::vector<double>{path[i].point.x, path[i].point.y, path[i].point.z});
         }
         
+        // Generate the first trajectory
+        // If the plan was received while on mission, 
+        // the first point of the trajectory should be the current position
+        if (state.first == MotionState::NOT_STARTED)
+            point = std::vector<double> {path[0].point.x, path[0].point.y, path[0].point.z};
+        else
+            point = drones[droneID]->getPosition();
+        
+        points.push_back(Eigen::Vector3d {point[0], point[1], point[2]});     
+        points.push_back(Eigen::Vector3d {path[1].point.x, path[1].point.y, path[1].point.z});
+
         drones[droneID]->generateTrj(points, false);
 
         // Start the drone and restart timer
