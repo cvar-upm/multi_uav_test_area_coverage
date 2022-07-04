@@ -20,7 +20,6 @@ public:
     ExecutionMonitor(int id);
     ~ExecutionMonitor(){};
     void start();
-    void shutdown();
 
 private:
     shared_ptr<LocalDrone> drone;

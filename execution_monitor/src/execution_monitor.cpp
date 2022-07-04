@@ -123,11 +123,3 @@ void ExecutionMonitor::cameraCallBack(const mutac_msgs::Alarm &msg) {
     if (msg.identifier.natural == id) drone->setCamera(false);
 }
 
-void ExecutionMonitor::shutdown() {
-    event_pub.shutdown();
-    covered_pub.shutdown();
-
-    battery_sub.shutdown();
-    trj_sub.shutdown();
-    alarm_sub.shutdown();
-}
