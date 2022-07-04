@@ -8,7 +8,7 @@ A multi UAV test platform for area coverage path planning algorithms.
 
 The `multi_robot_simulator` uses [Flightmare](https://github.com/uzh-rpg/flightmare) to simulate the mission. To use it, you need to install [Flightmare with ROS](https://github.com/uzh-rpg/flightmare/wiki/Install-with-ROS).
 
-After installing it, if you want to use the 3D scene used in the examples (a solar farm), you need to install the modified Flightmare binary from here (link), extract it into the */path/to/flightmare/flightrender*, and modify the following files:
+After installing it, if you want to use the solar farm scene used in the examples, you need to install the modified Flightmare binary from here (link), extract it into the */path/to/flightmare/flightrender*, and modify the following files:
 
 - *flightmare/flightlib/include/flightlib/bridges/unity_message_types.hpp*
 
