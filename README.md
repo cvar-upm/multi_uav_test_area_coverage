@@ -121,7 +121,7 @@ Now, inside the workspace you can clone the MUTAC repository.
 
 ```
 cd ~/catkin_ws/src
-git clone https://github.com/cvar-upm/multi_uav_test_area_coverage
+git clone https://github.com/cvar-upm/multi_uav_test_area_coverage .
 ```
 
 Build the workspace:
