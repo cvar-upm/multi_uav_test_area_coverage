@@ -99,12 +99,13 @@ PolynomialTrajectory::PolynomialTrajectory(const PolynomialTrajectory& other)
 {}
 ```
 
-### Install PySide6
+### Install dependencies
 
-Install the PySide6 library with the following command if you want to use the `performance_viewer`:
+Install the PySide6 library with the following command if you want to use the `performance_viewer`, and `tmux` to execute the examples:
 
 ```
 pip install pyside6
+sudo apt install tmux
 ```
 
 ### MUTAC workspace
@@ -123,18 +124,18 @@ cd ~/catkin_ws/src
 git clone https://github.com/cvar-upm/multi_uav_test_area_coverage
 ```
 
-Add the workspace setup to the *.bashrc* file and create te **MUTAC_WS** environment variable for the workspace.
+Build the workspace:
+
+```
+catkin build
+```
+
+To finish, add the workspace setup to the *.bashrc* file and create the **MUTAC_WS** environment variable for the workspace.
 
 ```
 echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 echo "export MUTAC_WS=~/catkin_ws/src" >> ~/.bashrc
 source ~/.bashrc
-```
-
-Now, build the workspace:
-
-```
-catkin build
 ```
 
 After this installation you can now execute every example in the `test` package.
