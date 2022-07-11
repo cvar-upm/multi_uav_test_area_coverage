@@ -64,7 +64,7 @@ private:
     ros::Timer timer;
     
     ros::NodeHandle nh;
-    ros::Publisher battery_pub;
+    //ros::Publisher battery_pub;
     ros::Publisher alarm_pub;
 
 public:
@@ -73,7 +73,7 @@ public:
 private:
     void blindCamera();
     void goHomeBase();
-    void batteryDischarge(int percentage);
+    //void batteryDischarge(double percentage);
     void fallDown();
     void stop(int secs);
     void rectilinearMotion();

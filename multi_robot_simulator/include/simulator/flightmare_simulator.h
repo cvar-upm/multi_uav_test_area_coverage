@@ -99,6 +99,8 @@ private:
     std::map<int, image_transport::Publisher> rgb_pubs;
     std::map<int, std::shared_ptr<RGBCamera>> rgb_cameras;
 
+    double battery_each_min;
+
 private:
     void connectROS();
     void configDrones();

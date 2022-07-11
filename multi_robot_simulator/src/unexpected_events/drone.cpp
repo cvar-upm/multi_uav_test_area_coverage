@@ -48,6 +48,9 @@ Drone::Drone(int id, std::vector<double> init_pos) {
 
     acceleration << 0.0, 0.0, 0.0;
     velocity << 0.0, 0.0, 0.0;
+
+    nh = ros::NodeHandle("");
+    battery_pub = nh.advertise<sensor_msgs::BatteryState>("drone" + std::to_string(id+1) + "/battery_state", 100);
 }
 
 Drone::Drone(const Drone &other) :
@@ -134,4 +137,23 @@ bool Drone::changeTrajectory() {
 double Drone::calculateSegmentTime(Eigen::Vector3d p1, Eigen::Vector3d p2) {
     double dist = std::sqrt(std::pow((p1[0] - p2[0]), 2) + std::pow((p1[1] - p2[1]), 2) + std::pow((p1[2] - p2[2]), 2));
     return dist / trj_velocity;
+}
+
+void Drone::batteryDischarge(double percentage) {
+    sensor_msgs::BatteryState msg = sensor_msgs::BatteryState();
+    double real_battery = getBattery();
+    double discharged_battery = real_battery - percentage;
+    std::cout << "Dron" << id << " battery: " << real_battery << " (now: " << discharged_battery << ")" << std::endl;
+    setBattery(discharged_battery);
+
+    if(ceil(real_battery) != ceil(discharged_battery)) {
+        msg.percentage = ceil(discharged_battery);
+    
+        if (msg.percentage <= 0) {
+            msg.percentage = 0;
+        }
+
+        //setBattery(msg.percentage);
+        battery_pub.publish(msg);
+    }
 }

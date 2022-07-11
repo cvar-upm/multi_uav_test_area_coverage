@@ -37,6 +37,7 @@
 #include "geometry_msgs/PoseStamped.h"
 #include "geometry_msgs/Pose.h"
 #include "geometry_msgs/Twist.h"
+#include "sensor_msgs/BatteryState.h"
 
 #include "polynomial_trajectories/minimum_snap_trajectories.h"
 #include "polynomial_trajectories/polynomial_trajectories_common.h"
@@ -71,7 +72,7 @@ public:
 
 private:
     int id;
-    int battery;
+    double battery;
     std::vector<double> position;
 
     int stopped_time;
@@ -94,9 +95,12 @@ private:
 
     ros::Time timer;
 
+    ros::NodeHandle nh;
+    ros::Publisher battery_pub;
+
 public: 
     int getId() {return id;}
-    int getBattery() {return battery;}
+    double getBattery() {return battery;}
     std::vector<double> getPosition() {return position;}
 
     int getStoppedTime() {return stopped_time;}
@@ -122,7 +126,7 @@ public:
     ros::Time getTimer() {return timer;}
 
 public:
-    void setBattery(int battery) {this->battery = battery;}
+    void setBattery(double battery) {this->battery = battery;}
     void setPosition(std::vector<double> pos) {position[0] = pos[0]; position[1] = pos[1]; position[2] = pos[2];}
 
     void setStoppedTime(int stopped_time) {this->stopped_time = stopped_time;}
@@ -152,6 +156,8 @@ public:
     
     void addPoint(std::vector<double> point){trj_points.push_back(point);}
     void clearTrjPoints(){trj_points.clear();}
+
+    void batteryDischarge(double percentage);
 
 private:
     bool changeTrajectory();

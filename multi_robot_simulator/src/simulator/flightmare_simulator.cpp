@@ -66,6 +66,9 @@ Simulator::Simulator() {
         homebases.push_back(pos);
     }
 
+    nh.param<double>("/mutac/battery_each_min", battery_each_min, 1);
+
+
     // ROS communication
     connectROS();
 
@@ -141,6 +144,9 @@ void Simulator::start() {
                 sensor_msgs::ImagePtr rgb_msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", img).toImageMsg();
                 rgb_msg->header.stamp = time;
                 rgb_pubs[i].publish(rgb_msg);
+            }
+            if(drones[i]->getState().first != MotionState::NOT_STARTED) {
+                drones[i]->batteryDischarge(battery_each_min/600);
             }
         }
         

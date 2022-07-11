@@ -33,14 +33,15 @@ EventController::EventController(std::shared_ptr<Drone> drone, std::vector<doubl
     drone(drone), homebase(homebase), floorZ(floorZ) {
         nh = ros::NodeHandle("");
         alarm_pub = nh.advertise<mutac_msgs::Alarm>("drone_alarm", 100);
-        battery_pub = nh.advertise<sensor_msgs::BatteryState>("drone" + to_string(drone->getId()+1) + "/battery_state", 100);
+        //battery_pub = nh.advertise<sensor_msgs::BatteryState>("drone" + to_string(drone->getId()+1) + "/battery_state", 100);
 }
 
 EventController::EventController(const EventController &other) :
-    drone(other.drone), homebase(other.homebase), floorZ(other.floorZ), timer(other.timer), nh(other.nh), battery_pub(other.battery_pub),
+    drone(other.drone), homebase(other.homebase), floorZ(other.floorZ), timer(other.timer), nh(other.nh), //battery_pub(other.battery_pub),
     alarm_pub(other.alarm_pub) {}
 
 void EventController::startEvent(Event event) {
+    double instantBattery;
     switch (event.getType()) {
     case EventType::BLIND_CAMERA:
         std::cout << "Drone: " << drone->getId() << " Event: BLIND_CAMERA" << std::endl;
@@ -52,7 +53,11 @@ void EventController::startEvent(Event event) {
         break;
     case EventType::BATTERY_DISCHARGE:
         std::cout << "Drone: " << drone->getId() << " Event: BATTERY_DISCHARGE" << std::endl;
-        batteryDischarge(event.getParam());
+        drone->batteryDischarge(event.getParam());
+        instantBattery = drone->getBattery();
+        if(instantBattery <= 0) {
+            fallDown();
+        }
         break;
     case EventType::FALL_DOWN:
         std::cout << "Drone: " << drone->getId() << " Event: FALL_DOWN" << std::endl;
@@ -100,10 +105,10 @@ void EventController::goHomeBase() {
 
     drone->setTrjChanged(true);
 }
-
-void EventController::batteryDischarge(int percentage) {
+/*
+void EventController::batteryDischarge(double percentage) {
     sensor_msgs::BatteryState msg = sensor_msgs::BatteryState();
-    msg.percentage = drone->getBattery() - percentage;
+    msg.percentage = percentage;//drone->getBattery() - percentage;
     
     if (msg.percentage <= 0) {
         msg.percentage = 0;
@@ -112,7 +117,7 @@ void EventController::batteryDischarge(int percentage) {
 
     drone->setBattery(msg.percentage);
     battery_pub.publish(msg);
-}
+}*/
 
 void EventController::fallDown() {
     drone->setMotionState(MotionState::FALLING_DOWN_FAILURE);
