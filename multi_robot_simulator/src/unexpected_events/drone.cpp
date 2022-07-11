@@ -143,7 +143,7 @@ void Drone::batteryDischarge(double percentage) {
     sensor_msgs::BatteryState msg = sensor_msgs::BatteryState();
     double real_battery = getBattery();
     double discharged_battery = real_battery - percentage;
-    std::cout << "Dron" << id << " battery: " << real_battery << " (now: " << discharged_battery << ")" << std::endl;
+    //std::cout << "Dron" << id << " battery: " << real_battery << " (now: " << discharged_battery << ")" << std::endl;
     setBattery(discharged_battery);
 
     if(ceil(real_battery) != ceil(discharged_battery)) {

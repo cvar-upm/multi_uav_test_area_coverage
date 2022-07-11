@@ -17,3 +17,5 @@ common_space/height: 375
 common_space/height_increment: 5
 
 update_plan/threshold: 0.8
+
+battery_per_minute: 5
