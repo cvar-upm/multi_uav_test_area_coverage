@@ -66,7 +66,7 @@ Simulator::Simulator() {
         homebases.push_back(pos);
     }
 
-    nh.param<double>("/mutac/battery_each_min", battery_each_min, 1);
+    nh.param<double>("/mutac/battery_per_minute", battery_per_min, 1);
 
 
     // ROS communication
@@ -89,6 +89,8 @@ Simulator::Simulator() {
 void Simulator::start() {
     FrameID frame_id = 1;
     ros::Rate rate(10);
+    ros::Time time;
+    ros::Time prevTime;
     
     while (ros::ok() && unity_ready) {
         // Check to see if there are events to simulate
@@ -98,7 +100,8 @@ void Simulator::start() {
         }
         
         restartTimer();
-        ros::Time time = ros::Time::now();
+        prevTime = time;
+        time = ros::Time::now();
 
         for (int i = 0; i < n_drones; i++) {
             // Trajectories
@@ -145,8 +148,8 @@ void Simulator::start() {
                 rgb_msg->header.stamp = time;
                 rgb_pubs[i].publish(rgb_msg);
             }
-            if(drones[i]->getState().first != MotionState::NOT_STARTED) {
-                drones[i]->batteryDischarge(battery_each_min/600);
+            if(drones[i]->getState().first != MotionState::NOT_STARTED && drones[i]->getState().first != MotionState::FINISHED) {
+                drones[i]->batteryDischarge((time-prevTime).toSec()*(battery_per_min/60));
             }
         }
         

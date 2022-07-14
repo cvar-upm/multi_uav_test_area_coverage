@@ -51,6 +51,7 @@ Drone::Drone(int id, std::vector<double> init_pos) {
 
     nh = ros::NodeHandle("");
     battery_pub = nh.advertise<sensor_msgs::BatteryState>("drone" + std::to_string(id+1) + "/battery_state", 100);
+    alarm_pub = nh.advertise<mutac_msgs::Alarm>("drone_alarm", 100);
 }
 
 Drone::Drone(const Drone &other) :
@@ -74,8 +75,16 @@ std::vector<double> Drone::getNextPoint(ros::Time time) {
     }
 
     if (duration > trj->T) {
-        state.first = MotionState::FINISHED;
-        velocity << 0.0, 0.0, 0.0;
+        if(state.first != MotionState::GOING_HOMEBASE) {
+            state.first = MotionState::FINISHED;
+            velocity << 0.0, 0.0, 0.0;
+        } else {
+            reset();
+            mutac_msgs::Alarm msg = mutac_msgs::Alarm();
+            msg.identifier.natural = id;
+            msg.alarm = mutac_msgs::Alarm::DRONE_RECOVERED;
+            alarm_pub.publish(msg);
+        }
         return point;
     }
     
@@ -156,4 +165,27 @@ void Drone::batteryDischarge(double percentage) {
         //setBattery(msg.percentage);
         battery_pub.publish(msg);
     }
+}
+
+void Drone::reset() {
+    battery = 100;
+
+    stopped_time = 0;
+    event_stop_time = 0;
+    start_stop = ros::Time::now();
+
+    if(state.second == CameraState::CAMERA_FAILURE) {
+        state = std::pair<MotionState, CameraState> {MotionState::NOT_STARTED, CameraState::CAMERA_OK};
+    } else {
+        state = std::pair<MotionState, CameraState> {MotionState::NOT_STARTED, state.second}; 
+    }
+    prev_state = state;
+    
+    trj_changed = false;
+    trj_points = std::vector<std::vector<double>>();
+
+    timer = ros::Time::now();;
+
+    acceleration << 0.0, 0.0, 0.0;
+    velocity << 0.0, 0.0, 0.0;
 }

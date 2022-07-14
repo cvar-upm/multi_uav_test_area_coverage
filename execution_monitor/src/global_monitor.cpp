@@ -82,7 +82,8 @@ void GlobalMonitor::start() {
                 if (drone->getLastState() == State::ON_MISSION && drones.size() > 1)
                     askReplan();
                 
-                pose_subs[droneID].shutdown();
+                //pose_subs[droneID].shutdown();
+                lost_drones[droneID] = drone;
                 it = drones.erase(it);
                 erased = true;
             }
@@ -106,8 +107,7 @@ void GlobalMonitor::start() {
 
             if(!erased) it++;
         }
-
-        ros::spinOnce();
+        if(drones.size() > 0) ros::spinOnce();
         rate.sleep();
     }
 }
@@ -142,13 +142,19 @@ vector<mutac_msgs::LabeledPath> GlobalMonitor::generatePlanPaths() {
         path.identifier.natural = state != State::LOST ? droneID : -1;
         path.points = drone->getWaypoints();
 
-        point.label.natural = (path.points[0].label != drone->getLastLabel()) ? mutac_msgs::Label::POSITIONING_LABEL : path.points[0].label.natural;
+        point.label.natural = (path.points.size() <= 0 || path.points[0].label != drone->getLastLabel()) ? mutac_msgs::Label::POSITIONING_LABEL : path.points[0].label.natural;
         path.points.insert(path.points.begin(), point);
 
         paths[drone->getIndex()] = path;
 
+        //std::cout << droneID << ":" << std::endl;
+        //std::cout << path << std::endl;
+
         it++;
     }
+
+    std::cout << paths[0] << std::endl << std::endl << paths[1] << std::endl;
+    std::cout << "------------------------------" << std::endl;
 
     return paths;
 }
@@ -175,7 +181,7 @@ void GlobalMonitor::waypointCallBack(const mutac_msgs::Identifier &msg) {
 }
 
 void GlobalMonitor::eventCallBack(const mutac_msgs::State &msg) {
-    if (drones.find(msg.identifier.natural) != drones.end())
+    if (drones.find(msg.identifier.natural) != drones.end() || lost_drones.find(msg.identifier.natural) != lost_drones.end())
         if (msg.state == msg.FINISHED) {
             drones[msg.identifier.natural]->setState(State::MISSION_FINISHED);
             drones[msg.identifier.natural]->advanceWP();
@@ -183,11 +189,18 @@ void GlobalMonitor::eventCallBack(const mutac_msgs::State &msg) {
         else if (msg.state == msg.LANDED) {
             drones[msg.identifier.natural]->setState(State::LANDED);
         }
-        else {
+        else if (msg.state == msg.LOST) {
             drones[msg.identifier.natural]->saveState();
             drones[msg.identifier.natural]->setState(State::LOST);
             drones[msg.identifier.natural]->setPosInTrj(vector<double>{msg.position.x, msg.position.y, msg.position.z});
+        } else {
+            lost_drones[msg.identifier.natural]->reset();
+            //pose_subs.push_back(nh.subscribe("drone" + to_string(msg.identifier.natural+1) + "/drone_pose", 1, &GlobalDrone::positionCallBack, lost_drones[msg.identifier.natural].get()));
+            drones[msg.identifier.natural] = lost_drones[msg.identifier.natural];
+            drones[msg.identifier.natural]->setIndex(drones.size()-1);
+            lost_drones.erase(msg.identifier.natural);
+            askReplan();
         }
     else
-        cout << "WARNING: Event received for a drone that doesn't exists or is lost." << endl;
+        cout << "WARNING: Event received for a drone that doesn't exists." << endl;
 }

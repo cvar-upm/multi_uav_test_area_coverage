@@ -76,6 +76,9 @@ class Drone:
     def change_title(self):
         self.text.setHtml('<div style="background-color:rgba(0, 0, 0, 0.3)">UAV {} <span style="color:rgb(255, 255, 0)">(lost)</span></p>'.format(self.id+1))
     
+    def change_title_back(self):
+        self.text.setHtml('<div style="background-color:rgba(0, 0, 0, 0.3)">UAV {}</p>'.format(self.id+1))
+
     def _init_image(self):
         img_path = rospy.get_param(rospy.get_name() + "/drone_img")
         imgOb = QGraphicsPixmapItem(QPixmap(img_path))
@@ -87,7 +90,13 @@ class Drone:
         self.text.setPos(-12, -22)
 
         self.droneImg = QGraphicsItemGroup()
-        self.droneImg.setZValue(3)
+        self.droneImg.setZValue(4)
         self.droneImg.addToGroup(imgOb)
         self.droneImg.addToGroup(self.text)
         
+    def reset(self):
+        self.plan, self.planLeft =  None, None
+        self.waypoints = []
+        self.in_mission, self.lost = False, False
+        self.wp, self.lastWP = [], []
+        self.wpLabel, self.lastLabel = Label.POSITIONING_LABEL, Label.POSITIONING_LABEL

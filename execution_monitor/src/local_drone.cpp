@@ -53,7 +53,7 @@ Return values:
 */
 int LocalDrone::checkDrone(double distTrj, double distWP) {
     // If drone has landed, is lost or hasn't started yet, dont check anything
-    if(state == State::NOT_STARTED) return -1;
+    if(state == State::NOT_STARTED || state == State::LOST) return -1;
 
     // Camera or Battery failure
     if (!camera || battery <= 5) {
@@ -178,4 +178,17 @@ vector<double> LocalDrone::calculateProjection(vector<double> pos, vector<double
     double scalar = (AM[0] * u [0] + AM[1] * u [1] + AM[2] * u [2]) / pow(vectorNorm(u[0], u[1], u[2]), 2);
     
     return vector<double> {wp1[0] + scalar * u[0], wp1[1] + scalar * u[1], wp1[2] + scalar * u[2]};
+}
+
+void LocalDrone::reset() {
+    MonitorData::reset();
+    battery = 100;
+    camera = true;
+    deviated = false;
+
+    waypoints = vector<vector<double>>();
+    inspection_wps = vector<vector<double>>();
+
+    prev_distance = DBL_MAX;
+    lastWP = position;
 }

@@ -32,13 +32,14 @@
 EventController::EventController(std::shared_ptr<Drone> drone, std::vector<double> homebase, double floorZ) :
     drone(drone), homebase(homebase), floorZ(floorZ) {
         nh = ros::NodeHandle("");
-        alarm_pub = nh.advertise<mutac_msgs::Alarm>("drone_alarm", 100);
+        //alarm_pub = nh.advertise<mutac_msgs::Alarm>("drone_alarm", 100);
         //battery_pub = nh.advertise<sensor_msgs::BatteryState>("drone" + to_string(drone->getId()+1) + "/battery_state", 100);
 }
 
 EventController::EventController(const EventController &other) :
-    drone(other.drone), homebase(other.homebase), floorZ(other.floorZ), timer(other.timer), nh(other.nh), //battery_pub(other.battery_pub),
-    alarm_pub(other.alarm_pub) {}
+    drone(other.drone), homebase(other.homebase), floorZ(other.floorZ), timer(other.timer), nh(other.nh)//, battery_pub(other.battery_pub),
+    //alarm_pub(other.alarm_pub)
+    {}
 
 void EventController::startEvent(Event event) {
     double instantBattery;
@@ -90,8 +91,8 @@ void EventController::blindCamera() {
     drone->setCameraState(CameraState::CAMERA_FAILURE);
     mutac_msgs::Alarm msg = mutac_msgs::Alarm();
     msg.identifier.natural = drone->getId();
-    msg.camera = false;
-    alarm_pub.publish(msg);
+    msg.alarm = mutac_msgs::Alarm::CAMERA_FAILURE;
+    drone->getAlarmPub().publish(msg);
 }
 
 void EventController::goHomeBase() {

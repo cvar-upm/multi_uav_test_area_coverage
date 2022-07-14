@@ -77,6 +77,7 @@ public:
     int checkDrone(double distTrj, double distWP);
     void batteryCallBack(const sensor_msgs::BatteryState &msg);
     void advanceWP();
+    void reset();
 };
 
 #endif

@@ -32,7 +32,7 @@
 GlobalDrone::GlobalDrone(int id) : MonitorData(id) {
     waypoints = vector<mutac_msgs::LabeledPoint>();
     time_last_msg = ros::Time::now();
-    last_label.natural = mutac_msgs::Label::COVERING_LABEL;
+    last_label.natural = mutac_msgs::Label::POSITIONING_LABEL;
 }
 
 // Cehcks if there is still connection with the drone
@@ -63,4 +63,11 @@ void GlobalDrone::setWaypoints(vector<mutac_msgs::LabeledPoint> waypoints) {
 void GlobalDrone::advanceWP() {
     last_label = waypoints[0].label;
     waypoints.erase(waypoints.begin());
+}
+
+void GlobalDrone::reset() {
+    MonitorData::reset();
+    waypoints = vector<mutac_msgs::LabeledPoint>();
+    time_last_msg = ros::Time::now();
+    last_label.natural = mutac_msgs::Label::POSITIONING_LABEL;
 }

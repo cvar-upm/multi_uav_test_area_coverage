@@ -65,7 +65,7 @@ private:
     
     ros::NodeHandle nh;
     //ros::Publisher battery_pub;
-    ros::Publisher alarm_pub;
+    //ros::Publisher alarm_pub;
 
 public:
     void startEvent(Event event);

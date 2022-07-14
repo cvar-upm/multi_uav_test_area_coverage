@@ -52,6 +52,8 @@ private:
     double distance = 0;
 
     int time = 0;
+    int lostTime = 0;
+    int startLost = 0;
     int startTime = 0;
     int endTime = -1;
 
@@ -67,6 +69,8 @@ public:
     int getTime() {return time;}
     int getStartTime() {return startTime;}
     int getEndTime() {return endTime;}
+    int getLostTime() {return lostTime;}
+    int getStartLost() {return startLost;}
 
     vector<double> getPosition() {return position;}
 
@@ -76,6 +80,8 @@ public:
     void setTime(int time) {this->time = time;}
     void setStartTime(int start) {startTime = start;}
     void setEndTime(int end) {endTime = end;}
+    void setLostTime(int time) {lostTime = time;}
+    void setStartLost(int lost) {startLost = lost;}
 
 public:
     void positionCallBack(const geometry_msgs::Pose &msg);

@@ -21,7 +21,7 @@ tmux new-window -t $SESSION:4 -n 'Performance Evaluator'
 tmux send-keys "roslaunch performance_evaluation performance_evaluator.launch --wait" C-m
 
 tmux new-window -t $SESSION:5 -n 'Global Monitor'
-tmux send-keys "roslaunch execution_monitor global_monitor.launch --wait" C-m
+tmux send-keys "roslaunch execution_monitor global_monitor.launch debug:=1 --wait" C-m
 
 tmux new-window -t $SESSION:6 -n 'Execution Monitor Drone 1'
 tmux send-keys "roslaunch execution_monitor execution_monitor.launch drone_id:=1 --wait" C-m

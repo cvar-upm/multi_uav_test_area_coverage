@@ -38,7 +38,7 @@ void Drone::positionCallBack(const geometry_msgs::Pose &msg) {
     if (startTime > 0 && endTime < 0) {
         distance += sqrt(pow(msg.position.x - position[0], 2) + pow(msg.position.y - position[1], 2) +
                         pow(msg.position.z - position[2], 2));
-        time = ros::Time::now().toSec() - startTime;
+        time = ros::Time::now().toSec() - startTime - lostTime;
     }
 
     position[0] = msg.position.x;

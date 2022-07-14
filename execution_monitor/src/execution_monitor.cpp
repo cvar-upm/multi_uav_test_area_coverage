@@ -84,7 +84,7 @@ void ExecutionMonitor::start() {
             msg.position.z = pos[2];
             event_pub.publish(msg);
 
-            if(eventID == 1) stop = true;
+            //if(eventID == 1) stop = true;
         }
 
         // Sends notification if drone landed
@@ -149,6 +149,23 @@ void ExecutionMonitor::trajectoryCallBack(const mutac_msgs::Plan &msg) {
 }
 
 void ExecutionMonitor::cameraCallBack(const mutac_msgs::Alarm &msg) {
-    if (msg.identifier.natural == id) drone->setCamera(false);
+    //std::cout << "UNO" << std::endl;
+    if (msg.identifier.natural == id) {
+        //std::cout << "DOS" << std::endl;
+        switch(msg.alarm) {
+            case mutac_msgs::Alarm::CAMERA_FAILURE:
+                //std::cout << "TRES" << std::endl;
+                drone->setCamera(false);
+                break;
+            case mutac_msgs::Alarm::DRONE_RECOVERED:
+                //std::cout << "CUATRO" << std::endl;
+                drone->reset();
+                mutac_msgs::State msg = mutac_msgs::State();
+                msg.identifier.natural = id;
+                msg.state = mutac_msgs::State::RECOVERED;
+                event_pub.publish(msg);
+                break;
+        }
+    }
 }
 

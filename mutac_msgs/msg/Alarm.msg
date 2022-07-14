@@ -1,2 +1,5 @@
 mutac_msgs/Identifier identifier
-bool camera
+uint32 alarm
+
+uint32 CAMERA_FAILURE=0
+uint32 DRONE_RECOVERED=1

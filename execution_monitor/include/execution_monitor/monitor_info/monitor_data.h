@@ -70,6 +70,7 @@ public:
 
 public:
     void positionCallBack(const geometry_msgs::Pose &msg);
+    void reset();
 };
 
 #endif

@@ -50,6 +50,7 @@ class Map(QGraphicsView):
 
     droneLostSignal = Signal(State)
     droneStatusSignal = Signal(State)
+    droneRecoveredSignal = Signal(State)
 
     showPlanSignal = Signal(bool)
     showPlanLeftSignal = Signal(bool)
@@ -113,7 +114,7 @@ class Map(QGraphicsView):
             trajectory = QGraphicsItemGroup()
             trajectory_left = QGraphicsItemGroup()
             trajectory.setZValue(1)
-            trajectory_left.setZValue(1)
+            trajectory_left.setZValue(3)
 
             # For each 2 points in the trajectory create a line between them and add it to the group
             for i in range(len(path) - 1):
@@ -145,6 +146,7 @@ class Map(QGraphicsView):
                 self.scene.removeItem(drone.planLeft)
 
                 modPlan = QGraphicsItemGroup()
+                modPlan.setZValue(3)
                 for i, item in enumerate(drone.planLeft.childItems()):
                     if i == 0:
                         pen = QPen()
@@ -338,6 +340,8 @@ class Map(QGraphicsView):
             self.droneLostSignal.emit(data)
         elif (data.state == State.FINISHED):
             self.droneStatusSignal.emit(data)
+        elif (data.state == State.RECOVERED):
+            self.droneRecoveredSignal.emit(data)
 
     def wps_callback(self, data):
         self.wpSignal.emit(data)
@@ -351,6 +355,12 @@ class Map(QGraphicsView):
     def update_mission_status(self, data):
         self.drones[data.identifier.natural].in_mission = False
         self.update_wps(data.identifier)
+    
+    def change_recovered(self, data):
+        self.drones[data.identifier.natural].change_title_back()
+        self.drones[data.identifier.natural].reset()
+        self.scene.removeItem(self.drones[data.identifier.natural].plan)
+        self.scene.removeItem(self.drones[data.identifier.natural].planLeft)
 
     def update_wps(self, data):
         drone = self.drones[data.natural]
@@ -402,9 +412,9 @@ class Map(QGraphicsView):
             self.drones.append(Drone(self, i))
 
         # Creates new items group for the inspected regions
-        self.drone_limits = QGraphicsItemGroup()
-        self.drone_limits.setZValue(1)
-        self.drone_limits.hide()
+        #self.drone_limits = QGraphicsItemGroup()
+        #self.drone_limits.setZValue(1)
+        #self.drone_limits.hide()
 
         self.inspected_regions = dict()
         self.region_limits = []
@@ -457,7 +467,7 @@ class Map(QGraphicsView):
         self.scene.setItemIndexMethod(QGraphicsScene.NoIndex)
 
         # Add drone limits to the scene
-        self.scene.addItem(self.drone_limits)
+        #elf.scene.addItem(self.drone_limits)
 
         # Set view
         self.setScene(self.scene)
@@ -474,6 +484,7 @@ class Map(QGraphicsView):
 
         self.droneLostSignal.connect(self.change_lost)
         self.droneStatusSignal.connect(self.update_mission_status)
+        self.droneRecoveredSignal.connect(self.change_recovered)
 
         self.showPlanSignal.connect(self.show_plan)
         self.showPlanLeftSignal.connect(self.show_plan_left)

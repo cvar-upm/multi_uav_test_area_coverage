@@ -38,6 +38,7 @@
 #include "geometry_msgs/Pose.h"
 #include "geometry_msgs/Twist.h"
 #include "sensor_msgs/BatteryState.h"
+#include "mutac_msgs/Alarm.h"
 
 #include "polynomial_trajectories/minimum_snap_trajectories.h"
 #include "polynomial_trajectories/polynomial_trajectories_common.h"
@@ -97,6 +98,7 @@ private:
 
     ros::NodeHandle nh;
     ros::Publisher battery_pub;
+    ros::Publisher alarm_pub;
 
 public: 
     int getId() {return id;}
@@ -124,6 +126,8 @@ public:
     Eigen::Vector3d getVelocity() {return velocity;}
 
     ros::Time getTimer() {return timer;}
+
+    ros::Publisher getAlarmPub() {return alarm_pub;}
 
 public:
     void setBattery(double battery) {this->battery = battery;}
@@ -158,6 +162,8 @@ public:
     void clearTrjPoints(){trj_points.clear();}
 
     void batteryDischarge(double percentage);
+
+    void reset();
 
 private:
     bool changeTrajectory();

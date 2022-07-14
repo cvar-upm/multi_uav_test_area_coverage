@@ -68,6 +68,7 @@ public:
     void checkConnection(double time_threshold);
     
     void positionCallBack(const geometry_msgs::Pose &msg);
+    void reset();
 };
 
 #endif

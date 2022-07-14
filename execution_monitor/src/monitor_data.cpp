@@ -42,3 +42,10 @@ void MonitorData::positionCallBack(const geometry_msgs::Pose &msg) {
     position[1] = msg.position.y;
     position[2] = msg.position.z;
 }
+
+void MonitorData::reset() {
+    state = State::NOT_STARTED;
+
+    //position = vector<double>(3, 0);
+    pos_in_trj = vector<double>(3, 0);
+}

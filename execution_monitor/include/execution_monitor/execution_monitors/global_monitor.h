@@ -53,6 +53,7 @@ public:
 private:
     int nDrones;
     map<int, shared_ptr<GlobalDrone>> drones;
+    map<int, shared_ptr<GlobalDrone>> lost_drones;
 
     double last_msg_time = 5;
 

@@ -142,9 +142,15 @@ void MetricsGenerator::stateCallBack(const mutac_msgs::State &msg) {
     int start = drone->getStartTime();
 
     if(msg.state == msg.LOST || msg.state == msg.LANDED) {
+        if(msg.state == msg.LOST) {
+            drone->setStartLost(ros::Time::now().toSec());
+        }
         drone->setEndTime(ros::Time::now().toSec());
-        drone->setTime(ros::Time::now().toSec() -  start);
-    }    
+        drone->setTime(ros::Time::now().toSec() -  start - drone->getLostTime());
+    } else if(msg.state == msg.RECOVERED) {
+        drone->setLostTime(drone->getLostTime() + ros::Time::now().toSec() -  drone->getStartLost());
+        drone->setEndTime(-1);
+    }
 }
 
 void MetricsGenerator::trajectoryCallBack(const mutac_msgs::Plan &msg) {
