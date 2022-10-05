@@ -56,7 +56,8 @@ MetricsGenerator::MetricsGenerator() {
 
     metrics_pub = nh.advertise<mutac_msgs::Metrics>("performance_metrics", 100);
     state_sub = nh.subscribe("drone_events", 100, &MetricsGenerator::stateCallBack, this);
-    trj_sub = nh.subscribe("planned_paths", 100, &MetricsGenerator::trajectoryCallBack, this);
+    //trj_sub = nh.subscribe("planned_paths", 100, &MetricsGenerator::trajectoryCallBack, this);real_planned_paths
+    trj_sub = nh.subscribe("real_planned_paths", 100, &MetricsGenerator::trajectoryCallBack, this);
 }
 
 // Sends messages with the global metrics and the drones metrics with a frequency of 10Hz

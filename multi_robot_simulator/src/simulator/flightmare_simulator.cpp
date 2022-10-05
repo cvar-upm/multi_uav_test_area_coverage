@@ -181,6 +181,7 @@ void Simulator::connectROS() {
     path_sub = nh.subscribe("planned_paths", 100, &Simulator::pathCallback, this);
 
     // Publishers
+    real_path_pub = nh.advertise<mutac_msgs::Plan>("real_planned_paths", 16u);
     for (int i = 0; i < n_drones; i++) {
         pose_pubs.push_back(nh.advertise<geometry_msgs::Pose>("drone" + std::to_string(i+1) + "/drone_pose", 100));
         speed_pubs.push_back(nh.advertise<geometry_msgs::Twist>("drone" + std::to_string(i+1) + "/drone_twist", 100));
@@ -188,15 +189,55 @@ void Simulator::connectROS() {
 }
 
 void Simulator::pathCallback(const mutac_msgs::Plan &msg) {
+
+    //es el punto 3 el principio del camino (0, 1, 2 tienen otra altura, por lo que probablemente n, n-1 y n-2 tambien)
+
+    mutac_msgs::Plan temp = msg;
+
     for (size_t i = 0; i < msg.paths.size(); i++) {
-        int droneID = msg.paths[i].identifier.natural;
+        for (size_t j = 1; j < msg.paths[i].points.size() - 1; j++) {
+            double valor_altura = -11.1;
+            double real_x = temp.paths[i].points[j].point.x + 13.5;
+            double real_y = (-1) * temp.paths[i].points[j].point.y + 22.6;
+
+            double diff_x = (real_x*10)/244 - round((real_x*10)/244);
+
+            if(diff_x < 0) {
+                valor_altura += ( (1 - ((-1)*diff_x))*terrain_altitude[(int) round((real_x*10)/244)][(int) round((real_y*27)/126)] + ((-1)*diff_x)*terrain_altitude[(int) round((real_x*10)/244) - 1][(int) round((real_y*27)/126)]);
+            } else {
+                valor_altura += ( (1 - diff_x)*terrain_altitude[(int) round((real_x*10)/244)][(int) round((real_y*27)/126)] + diff_x*terrain_altitude[(int) round((real_x*10)/244) + 1][(int) round((real_y*27)/126)]);
+            }
+
+            if(valor_altura > 100)
+                std::cout << valor_altura << ", " << diff_x << " -   " << real_x << "  ,    " << terrain_altitude[(int) round((real_x*10)/244)][(int) round((real_y*27)/126)] << " + " << ((-1)*diff_x)*terrain_altitude[((int) round((real_x*10)/244)) - 1][(int) round((real_y*27)/126)] << " ... " << ((int) round((real_x*10)/244)) - 1 << std::endl;
+
+            temp.paths[i].points[j].point.z = temp.paths[i].points[j].point.z + valor_altura;
+        }
+    }
+
+
+    real_path_pub.publish(temp);
+
+
+    /*std::cout << temp.paths[0].points[2]
+              << temp.paths[0].points[3]
+              << temp.paths[1].points[2]
+              << temp.paths[1].points[3]
+              << temp.paths[2].points[2]
+              << temp.paths[2].points[3];*/
+
+    //for (size_t i = 0; i < msg.paths.size(); i++) {
+    for (size_t i = 0; i < temp.paths.size(); i++) {
+        //int droneID = msg.paths[i].identifier.natural;
+        int droneID = temp.paths[i].identifier.natural;
 
         if ((size_t)droneID > drones.size() - 1 || droneID < 0) {
             std::cout << "WARNING: Trajectory received for a drone that doesn't exists." << std::endl;
             return;
         }
         
-        std::vector<mutac_msgs::LabeledPoint> path = msg.paths[i].points;
+        //std::vector<mutac_msgs::LabeledPoint> path = msg.paths[i].points;
+        std::vector<mutac_msgs::LabeledPoint> path = temp.paths[i].points;
         
         if (path.size() < 2) {
             std::cout << "WARNING: Trajectoy needs to have at leat 2 waypoints." << std::endl;
@@ -212,7 +253,7 @@ void Simulator::pathCallback(const mutac_msgs::Plan &msg) {
         drones[droneID]->clearTrjPoints();
 
         // Add the points of the new plan
-        for (size_t i = 1; i < path.size(); i++) {
+        for (size_t i = 1; i < path.size(); i++) {            
             drones[droneID]->addPoint(std::vector<double>{path[i].point.x, path[i].point.y, path[i].point.z});
         }
         

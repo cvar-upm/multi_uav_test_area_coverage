@@ -1,0 +1,29 @@
+##################################
+# Performance viewer config file #
+##################################
+
+# Map image path
+img_path: ${MUTAC_WS}/performance_evaluation/performance_viewer/src/performance_viewer/resources/Map.png
+
+# Top left corner and bottom right corner coordinates from the map
+img_coordinates:
+  top: [900, 55]
+  bottom: [55, 445]
+
+# Points that form the region to inspect
+regions:
+  area1:
+    - [540, 345]
+    - [635, 120]
+    - [825, 120]
+    - [730, 345]
+    - [540, 345]
+  area2:
+    - [560, 112]
+    - [520, 232]
+    - [480, 232]
+    - [410, 212]
+    - [140, 192]
+    - [240, 112]
+    - [560, 112]
+  

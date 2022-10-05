@@ -53,7 +53,8 @@ GlobalMonitor::GlobalMonitor() {
         pose_subs.push_back(nh.subscribe("drone" + to_string(i+1) + "/drone_pose", 1, &GlobalDrone::positionCallBack, drone.get()));
     }
 
-    trj_sub = nh.subscribe("planned_paths", 100, &GlobalMonitor::trajectoryCallBack, this);
+    //trj_sub = nh.subscribe("planned_paths", 100, &GlobalMonitor::trajectoryCallBack, this);
+    trj_sub = nh.subscribe("real_planned_paths", 100, &GlobalMonitor::trajectoryCallBack, this);
     events_sub = nh.subscribe("drone_events", 100, &GlobalMonitor::eventCallBack, this);
     covered_sub = nh.subscribe("covered_points", 100, &GlobalMonitor::waypointCallBack, this);
 

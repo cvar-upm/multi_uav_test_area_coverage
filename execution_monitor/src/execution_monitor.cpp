@@ -55,7 +55,8 @@ ExecutionMonitor::ExecutionMonitor(int id) {
     pose_sub = nh.subscribe("drone_pose", 100, &LocalDrone::positionCallBack, dynamic_cast<MonitorData*>(drone.get()));
     battery_sub = nh.subscribe("battery_state", 100, &LocalDrone::batteryCallBack, drone.get());
 
-    trj_sub = nh.subscribe("/mutac/planned_paths", 100, &ExecutionMonitor::trajectoryCallBack, this);
+    //trj_sub = nh.subscribe("/mutac/planned_paths", 100, &ExecutionMonitor::trajectoryCallBack, this);
+    trj_sub = nh.subscribe("/mutac/real_planned_paths", 100, &ExecutionMonitor::trajectoryCallBack, this);
     alarm_sub = nh.subscribe("/mutac/drone_alarm", 100, &ExecutionMonitor::cameraCallBack, this);
 }
 

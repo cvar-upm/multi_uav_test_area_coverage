@@ -319,7 +319,7 @@ class Map(QGraphicsView):
 
     def subscribe(self):
         # Planned trajectories topic
-        rospy.Subscriber("planned_paths", Plan, self.trajectory_callback)
+        rospy.Subscriber("real_planned_paths", Plan, self.trajectory_callback)
 
         # Lost drones topic
         rospy.Subscriber("drone_events", State, self.state_callback)

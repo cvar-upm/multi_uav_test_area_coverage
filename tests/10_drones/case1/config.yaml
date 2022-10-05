@@ -6,22 +6,33 @@ n_drones: 10
 
 events/file_path: $MUTAC_WS/tests/10_drones/case1/example_events.csv
 
-homebase/drone1: [590, 90, 325]
-homebase/drone2: [595, 70, 325]
-homebase/drone3: [600, 90, 325]
-homebase/drone4: [605, 90, 325]
-homebase/drone5: [610, 90, 325]
-homebase/drone6: [590, 80, 325]
-homebase/drone7: [595, 80, 325]
-homebase/drone8: [600, 80, 325]
-homebase/drone9: [605, 80, 325]
-homebase/drone10: [610, 80, 325]
+#homebase/drone1: [590, 90, 325]
+#homebase/drone2: [595, 70, 325]
+#homebase/drone3: [600, 90, 325]
+#homebase/drone4: [605, 90, 325]
+#homebase/drone5: [610, 90, 325]
+#homebase/drone6: [590, 80, 325]
+#homebase/drone7: [595, 80, 325]
+#homebase/drone8: [600, 80, 325]
+#homebase/drone9: [605, 80, 325]
+#homebase/drone10: [610, 80, 325]
 
-mission/height: 370
-mission/distance: 10
+homebase/drone1: [70, 15, 14.06]
+homebase/drone2: [80, 15, 13.24]
+homebase/drone3: [90, 15, 13.14]
+homebase/drone4: [100, 15, 13.55]
+homebase/drone5: [110, 15, 13.9]
+homebase/drone6: [75, 12.5, 13.65]
+homebase/drone7: [85, 12.5, 12.94]
+homebase/drone8: [95, 12.5, 13.35]
+homebase/drone9: [105, 12.5, 13.76]
+homebase/drone10: [115, 12.5, 13.9]
 
-common_space/height: 375
-common_space/height_increment: 5
+mission/height: 8
+mission/distance: 2
+
+common_space/height: 12
+common_space/height_increment: 1
 
 update_plan/threshold: 0.8
 
